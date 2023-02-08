@@ -5,7 +5,6 @@ const { Category, Product } = require('../../models');
 
 router.get('/', (req, res) => {
   // find all categories
-  // be sure to include its associated Products
   Category.findAll({
     include:[{model: Product}]
   })
@@ -14,7 +13,6 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   // find one category by its `id` value
-  // be sure to include its associated Products
   Category.findByPk(req.params.id, {
     include:[{model: Product}]
   })
@@ -23,7 +21,6 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   // create a new category
-console.log(req.body)
   Category.create({
     category_name: req.body.category_name
   }).then((results)=>{res.status(200).json(results)}).catch((err)=>{res.status(500).json(err)})
@@ -39,13 +36,12 @@ router.put('/:id', (req, res) => {
       id: req.params.id
     }
   })
-  .then(res.status(200).json());
+  .then((results)=>{res.status(200).json(results)}).catch((err)=>{res.status(500).json(err)});
 });
 
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
-  // instance.destroy().then(() => {});
-  Category.destroy({where:{id:req.params.id}}).then(res.status(200).json())
+  Category.destroy({where:{id:req.params.id}}).then(res.status(200).json('Success!'))
 });
 
 module.exports = router;
